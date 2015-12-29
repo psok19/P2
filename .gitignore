@@ -1,0 +1,5 @@
+#ignore all files with extension o or d
+*.[od]
+#ignore binary file
+E2C2S1_SOKOLOWSKI_P2
+*~
