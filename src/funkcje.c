@@ -79,13 +79,13 @@ void wyslij_dane(void * buffer, int rozmiar){
 		        exit(1);
 		    }
 		    ifindex = ifr.ifr_ifindex;
-		    printf("Pobrano indeks karty NIC: %i\n", ifindex);
+//		    printf("Pobrano indeks karty NIC: %i\n", ifindex);
 		    //usatwiono index urzadzenia siecowego
 		    socket_address.sll_ifindex  = ifindex;
 
 
 			send_result = sendto(s_out, buffer, rozmiar, 0,(struct sockaddr*)&socket_address, sizeof(socket_address));
-			if (send_result == -1) { printf ("Nie moge wyslac danych! \n"); } else { printf ("Wyslalem dane do intefejsu: %s \n", INTERFACE);}
+			if (send_result == -1) { printf ("Nie moge wyslac danych! \n"); } //else { printf ("Wyslalem dane do intefejsu: %s \n", INTERFACE);}
 
 			//=======wypisz zawartosc bufora do wyslania===========
 			#if 0
