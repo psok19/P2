@@ -23,19 +23,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: E2C2S1_SOKOLOWSKI_P2
+all: P2
 
 # Tool invocations
-E2C2S1_SOKOLOWSKI_P2: $(OBJS) $(USER_OBJS)
+P2: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross GCC Linker'
-	gcc  -o "E2C2S1_SOKOLOWSKI_P2" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc  -o "P2" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C_DEPS)$(EXECUTABLES) E2C2S1_SOKOLOWSKI_P2
+	-$(RM) $(OBJS)$(C_DEPS)$(EXECUTABLES) P2
 	-@echo ' '
 
 .PHONY: all clean dependents

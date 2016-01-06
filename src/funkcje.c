@@ -1,65 +1,65 @@
 #include "naglowki.h"
 
-//void wyslij_dane(){
-//
-//		//definicja zmiennych
-//		int s_out; /*deskryptor gniazda*/
-//		int j;
-//
-//		//bufor dla ramek z Ethernetu
+void wyslij_dane(void * buffer, int rozmiar){
+
+		//definicja zmiennych
+		int s_out; /*deskryptor gniazda*/
+		int j;
+
+		//bufor dla ramek z Ethernetu
 //		void* buffer = (void*)malloc(ETH_FRAME_LEN);
-//		//wskaxnik do naglowka Eth
-//		unsigned char* etherhead = buffer;
-//		//wskaznik do miejsca rozpoczecia danych
-//		unsigned char* data = buffer + 14;
-//
-//		//inny wskaznik do naglowka Eth
-//		struct ethhdr *eh = (struct ethhdr *)etherhead;
-//		//adres docelowy
-//		struct sockaddr_ll socket_address;
-//		int send_result = 0;
-//		struct ifreq ifr;
-//		int ifindex = 0;
-//
-//
-//
-//
-//
-//
-//		//przygotowanie danych do wyslania
-//		/*socket_address.sll_family   = PF_PACKET;
-//		//numer protokolu warstwy wyzszej <w tej chwili dowolny>
-//		socket_address.sll_protocol = htons(ETH_P_IP);
-//		//index urzadzenia siecowego pobrany dalej
-//		//socket_address.sll_ifindex  = 2;
-//		//protokol warswy wyzszej
-//		//socket_address.sll_hatype   = 0x0800; //IP
-//		//celem jest inny host
-//		socket_address.sll_pkttype  = PACKET_OTHERHOST; */
-//		//dlugosc adresu Eth
-//		socket_address.sll_halen    = ETH_ALEN;
-//		//MAC - poczatek
-//		/*socket_address.sll_addr[0]  = 0x00;
-//		socket_address.sll_addr[1]  = 0xaa;
-//		socket_address.sll_addr[2]  = 0xbb;
-//		socket_address.sll_addr[3]  = 0xcc;
-//		socket_address.sll_addr[4]  = 0xdd;
-//		socket_address.sll_addr[5]  = 0xee;*/
-//		//MAC - koniec
-//		//socket_address.sll_addr[6]  = 0x00;/*nie uzywane*/
-//		//socket_address.sll_addr[7]  = 0x00;/*nie uzywane*/
-//
-//
-//		///////////////////Ustaw naglowek ramki///////////////////////////////////////
-//		//Adres zrodlowy Eth
-//		unsigned char src_mac[6] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
-//		//Adres docelowy Eth
-//		unsigned char dest_mac[6] = {0x00, 0xaa, 0xbb, 0xcc, 0xdd, 0xee};
-//		memcpy((void*)buffer, (void*)dest_mac, ETH_ALEN);
-//		memcpy((void*)(buffer+ETH_ALEN), (void*)src_mac, ETH_ALEN);
+		//wskaxnik do naglowka Eth
+		unsigned char* etherhead = buffer;
+		//wskaznik do miejsca rozpoczecia danych
+		unsigned char* data = buffer + 14;
+
+		//inny wskaznik do naglowka Eth
+		struct ethhdr *eh = (struct ethhdr *)etherhead;
+		//adres docelowy
+		struct sockaddr_ll socket_address;
+		int send_result = 0;
+		struct ifreq ifr;
+		int ifindex = 0;
+
+
+
+
+
+
+		//przygotowanie danych do wyslania
+		/*socket_address.sll_family   = PF_PACKET;
+		//numer protokolu warstwy wyzszej <w tej chwili dowolny>
+		socket_address.sll_protocol = htons(ETH_P_IP);
+		//index urzadzenia siecowego pobrany dalej
+		//socket_address.sll_ifindex  = 2;
+		//protokol warswy wyzszej
+		//socket_address.sll_hatype   = 0x0800; //IP
+		//celem jest inny host
+		socket_address.sll_pkttype  = PACKET_OTHERHOST; */
+		//dlugosc adresu Eth
+		socket_address.sll_halen    = ETH_ALEN;
+		//MAC - poczatek
+		/*socket_address.sll_addr[0]  = 0x00;
+		socket_address.sll_addr[1]  = 0xaa;
+		socket_address.sll_addr[2]  = 0xbb;
+		socket_address.sll_addr[3]  = 0xcc;
+		socket_address.sll_addr[4]  = 0xdd;
+		socket_address.sll_addr[5]  = 0xee;*/
+		//MAC - koniec
+		//socket_address.sll_addr[6]  = 0x00;/*nie uzywane*/
+		//socket_address.sll_addr[7]  = 0x00;/*nie uzywane*/
+
+
+		///////////////////Ustaw naglowek ramki///////////////////////////////////////
+		//Adres zrodlowy Eth
+		unsigned char src_mac[6] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05};
+		//Adres docelowy Eth
+		unsigned char dest_mac[6] = {0x00, 0xaa, 0xbb, 0xcc, 0xdd, 0xee};
+		memcpy((void*)buffer, (void*)dest_mac, ETH_ALEN);
+		memcpy((void*)(buffer+ETH_ALEN), (void*)src_mac, ETH_ALEN);
 //		eh->h_proto = htons (0x0800); //Protokol warstwy wyzszej: 0x0800 - pakiet IPv4
-//		//////////////////////////////////////////////////////////////////////////////
-//
+		//////////////////////////////////////////////////////////////////////////////
+
 //		/////////////////wylosuj lub ustaw dane dane do pola danych///////////////////////////////
 //		//UWAGA! BUFOR DANYCH RAMKI JEST NASTEPUJACY: data[]
 //		for (j = 0; j < 1500; j++) {
@@ -67,40 +67,40 @@
 //			data[j] = 0xaa;
 //			}
 //		////////////////////////////////////////////////////////////////////////////
-//
-//		//**************************wyslij ramke***********************************
-//		#if 1 //tu mozna zablokowac wysylanie
-//			s_out = socket(AF_PACKET, SOCK_RAW, ETH_P_ALL);
-//			if (s_out == -1) {printf ("Nie moge otworzyc gniazda s_out\n");}
-//
-//		    strncpy(ifr.ifr_name, INTERFACE, IFNAMSIZ);
-//		    if (ioctl(s_out, SIOCGIFINDEX, &ifr) == -1) {
-//		        perror("SIOCGIFINDEX");
-//		        exit(1);
-//		    }
-//		    ifindex = ifr.ifr_ifindex;
-//		    printf("Pobrano indeks karty NIC: %i\n", ifindex);
-//		    //usatwiono index urzadzenia siecowego
-//		    socket_address.sll_ifindex  = ifindex;
-//
-//
-//			send_result = sendto(s_out, buffer, ETH_FRAME_LEN, 0,(struct sockaddr*)&socket_address, sizeof(socket_address));
-//			if (send_result == -1) { printf ("Nie moge wyslac danych! \n"); } else { printf ("Wyslalem dane do intefejsu: %s \n", INTERFACE);}
-//
-//			//=======wypisz zawartosc bufora do wyslania===========
-//			#if 1
-//				printf ("Dane do wyslania: \n");
-//				for (j=0;j<send_result; j++) {
-//					printf ("%02x ", *(etherhead+j));
-//				}
-//				printf ("\n");
-//			#endif
-//			//========koniec wypisywania===========================
-//
-//		#endif //konic blokady wysylania
-//		//*******************************************************************************
-//
-//}
+
+		//**************************wyslij ramke***********************************
+		#if 1 //tu mozna zablokowac wysylanie
+			s_out = socket(AF_PACKET, SOCK_RAW, ETH_P_ALL);
+			if (s_out == -1) {printf ("Nie moge otworzyc gniazda s_out\n");}
+
+		    strncpy(ifr.ifr_name, INTERFACE, IFNAMSIZ);
+		    if (ioctl(s_out, SIOCGIFINDEX, &ifr) == -1) {
+		        perror("SIOCGIFINDEX");
+		        exit(1);
+		    }
+		    ifindex = ifr.ifr_ifindex;
+		    printf("Pobrano indeks karty NIC: %i\n", ifindex);
+		    //usatwiono index urzadzenia siecowego
+		    socket_address.sll_ifindex  = ifindex;
+
+
+			send_result = sendto(s_out, buffer, rozmiar, 0,(struct sockaddr*)&socket_address, sizeof(socket_address));
+			if (send_result == -1) { printf ("Nie moge wyslac danych! \n"); } else { printf ("Wyslalem dane do intefejsu: %s \n", INTERFACE);}
+
+			//=======wypisz zawartosc bufora do wyslania===========
+			#if 0
+				printf ("Dane do wyslania: \n");
+				for (j=0;j<send_result; j++) {
+					printf ("%02x ", *(etherhead+j));
+				}
+				printf ("\n");
+			#endif
+			//========koniec wypisywania===========================
+
+		#endif //konic blokady wysylania
+		//*******************************************************************************
+				close(s_out);
+}
 
 
 /*
@@ -1009,6 +1009,7 @@ void wypisz_dat_eth_ip_icmp(struct dat_eth_ip_icmp *dat, int rozmiar){
 	wypisz_nag_icmp(dat->nag_icmp);
 	int data_size= rozmiar - ETHERNET_HEADER_LENGTH - dat->nag_ip->IHL * 4 - ICMP_HEADER_LENGTH;
 	wypisz_dane_icmp(dat->data, dat->nag_icmp->type,  data_size);
+	printf("\n\n\n");
 }
 
 void wypisz_dane_icmp(size8 *data, size8 type,  int data_size){
@@ -1029,6 +1030,8 @@ void wypisz_dane_icmp(size8 *data, size8 type,  int data_size){
 	else if(type == 3 || type == 11){
 		struct nag_ip nag_ip;
 		memcpy(&nag_ip, data + 4   , IP_HEADER_MIN_LENGTH);
+		if(__LITTLE_ENDIAN)
+			swap_nag_ip(&nag_ip);
 		wypisz_nag_ip(&nag_ip);
 		int i;
 		printf("\tData: ");
@@ -1105,6 +1108,13 @@ void wypisz_dane_icmp(size8 *data, size8 type,  int data_size){
 		printf("\tOriginate Timestamp: %u\n", scal_liczbe(data, 4, 7));
 		printf("\tReceive Timestamp: %u\n", scal_liczbe(data, 8, 11));
 		printf("\tTransmit Timestamp: %u\n", scal_liczbe(data, 12, 15));
+	}
+	else{
+		printf("\tICMP Data:");
+		int i;
+		for(i = 0; i < data_size; i++){
+			printf(" %.2x", *(data + i));
+		}
 	}
 }
 /*
@@ -1220,11 +1230,9 @@ void bytes_swap_eth_ip_data(struct dat_eth_ip_dane *dat){
 void swap_nag_ip(struct nag_ip *dat){
 	dat->total_length = swap2bytes(dat->total_length);
 	dat->identification = swap2bytes(dat->identification);
-	size16 a = dat->fragmnet_offset;
-	dat->fragmnet_offset = (dat->fragmnet_offset << 8) |dat->reserved_bit | dat->dont_fragment | dat->more_fragments | (dat->fragmnet_offset >> 8);
-	dat->reserved_bit = (a >> 7) & 1;
-	dat->dont_fragment = (a >> 6) & 1;
-	dat->more_fragments = (a >> 5) & 1;
+	size16 * a = &dat->identification + 1;
+	*a = swap2bytes(*a);
+
 	dat->header_checksum= swap2bytes(dat->header_checksum);
 }
 
